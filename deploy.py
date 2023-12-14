@@ -113,11 +113,9 @@ if st.button("Diagnosis Kerusakan"):
     # Tampilkan rekomendasi perbaikan
     st.write(f"**Rekomendasi Perbaikan:** {rekomendasi}")
 
-
     # Tampilkan tabel dengan kemungkinan kerusakan untuk setiap gejala
     st.write("---")
-    st.subheader("Kemungkinan Kerusakan Berdasarkan Gejala:")
-    table_data = {"Gejala": gejala, "Kemungkinan": kemungkinan_kerusakan}
-    st.table(table_data) 
-
+    st.subheader("Kemungkinan Kerusakan Berdasarkan Jenis:")
+    table_data = {"Jenis Kerusakan": diagnosa, "Kemungkinan": kemungkinan_kerusakan}
+    st.table(table_data)
 
