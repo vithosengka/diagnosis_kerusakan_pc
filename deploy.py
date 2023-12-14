@@ -1,5 +1,5 @@
 import streamlit as st
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # Definisikan basis pengetahuan
 gejala = [
@@ -83,14 +83,6 @@ def get_diagnosa(kemungkinan, diagnosa):
     index_tertinggi = kemungkinan.index(max(kemungkinan))
     return diagnosa[index_tertinggi], rekomendasi_perbaikan[index_tertinggi]
 
-# Fungsi untuk menampilkan grafik batang
-def tampilkan_grafik(kemungkinan_kerusakan):
-    fig, ax = plt.subplots()
-    ax.bar(diagnosa, kemungkinan_kerusakan)
-    ax.set_ylabel('Kemungkinan Kerusakan')
-    ax.set_xlabel('Jenis Kerusakan')
-    ax.set_title('Kemungkinan Kerusakan Berdasarkan Jenis')
-    st.pyplot(fig)
 
 # Tampilkan judul dan deskripsi
 st.title("Sistem Diagnosis Kerusakan Komputer")
@@ -130,10 +122,4 @@ if st.button("Diagnosis Kerusakan"):
     table_data = {"Gejala": gejala, "Kemungkinan": kemungkinan_kerusakan}
     st.table(table_data) 
 
-    # Simpan hasil diagnosis ke dalam file teks
-    with open("hasil_diagnosis.txt", "w") as file:
-        file.write(f"Jenis Kerusakan: {hasil_diagnosa}\n")
-        file.write(f"Rekomendasi Perbaikan: {rekomendasi}\n")
-        file.write("\nKemungkinan Kerusakan Berdasarkan Gejala:\n")
-        for gejala, kemungkinan in zip(gejala, kemungkinan_kerusakan):
-            file.write(f"{gejala}: {kemungkinan}\n")
+
