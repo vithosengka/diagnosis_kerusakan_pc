@@ -113,8 +113,6 @@ if st.button("Diagnosis Kerusakan"):
     # Tampilkan rekomendasi perbaikan
     st.write(f"**Rekomendasi Perbaikan:** {rekomendasi}")
 
-    # Tampilkan grafik batang
-    tampilkan_grafik(kemungkinan_kerusakan)
 
     # Tampilkan tabel dengan kemungkinan kerusakan untuk setiap gejala
     st.write("---")
