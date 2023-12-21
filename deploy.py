@@ -1,5 +1,4 @@
 import streamlit as st
-#import matplotlib.pyplot as plt
 
 # Definisikan basis pengetahuan
 gejala = [
@@ -50,7 +49,6 @@ rekomendasi_perbaikan = [
     "Ganti sound card USB/PCI, gunakan headphone/speaker USB",
 ]
 
-# Definisikan rule
 rule = [
     ["Komputer tidak menyala", "Kipas tidak berputar", "Beberapa port USB tidak berkerja"],  # Rule untuk Motherboard Rusak
     ["Layar hitam saat booting", "Artefak/garis pada layar"],  # Rule untuk VGA Rusak
@@ -62,12 +60,14 @@ rule = [
     ["Tidak ada suara", "Suara kotor", "Noise pada speaker"],  # Rule untuk Sound Card Rusak
 ]
 
-# Fungsi untuk memeriksa gejala
-def cek_gejala(gejala, bobot_gejala, jawaban):
+
+# Fungsi untuk menghitung certainty factor
+def hitung_certainty_factor(gejala, bobot_gejala, jawaban):
     if jawaban == "ya":
         return bobot_gejala[gejala]
     else:
-        return 0
+        return -bobot_gejala[gejala]
+
 
 # Fungsi untuk menghitung kemungkinan kerusakan
 def hitung_kemungkinan(selected_gejala, bobot_gejala):
@@ -75,8 +75,9 @@ def hitung_kemungkinan(selected_gejala, bobot_gejala):
     for i, rule_gejala in enumerate(rule):
         for j, gejala in enumerate(selected_gejala):
             if gejala in rule_gejala:
-                kemungkinan[i] += cek_gejala(j, bobot_gejala, "ya")
+                kemungkinan[i] += hitung_certainty_factor(j, bobot_gejala, "ya")
     return kemungkinan
+
 
 # Fungsi untuk mendapatkan diagnosa
 def get_diagnosa(kemungkinan, diagnosa):
@@ -94,7 +95,6 @@ selected_gejala = st.multiselect(
     gejala,
     help="Pilih gejala yang Anda alami pada komputer. Anda dapat memilih lebih dari satu gejala."
 )
-
 # Tampilkan tombol untuk diagnosis
 if st.button("Diagnosis Kerusakan"):
     # Hitung kemungkinan kerusakan
@@ -106,7 +106,7 @@ if st.button("Diagnosis Kerusakan"):
     # Tampilkan hasil dengan tata letak yang lebih baik
     st.write("---")
     st.subheader("Hasil Diagnosis:")
-    
+
     # Tampilkan jenis kerusakan
     st.write(f"**Jenis Kerusakan:** {hasil_diagnosa}")
 
