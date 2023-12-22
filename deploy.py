@@ -128,6 +128,6 @@ if st.button("Diagnosis Kerusakan"):
 
     # Tampilkan tabel dengan Certainty Factor untuk gejala yang dipilih
     st.write("---")
-    st.subheader("Certainty Factor Berdasarkan Gejala:")
-    table_data_gejala = {"Gejala": selected_gejala, "Certainty Factor": hitung_certainty_factor_gejala(selected_gejala, bobot_gejala)}
+    st.subheader("Kemungkinan (CF) Berdasarkan Gejala:")
+    table_data_gejala = {"Gejala": selected_gejala, "Kondisi": hitung_certainty_factor_gejala(selected_gejala, bobot_gejala)}
     st.table(table_data_gejala)
