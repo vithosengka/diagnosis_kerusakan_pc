@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Definisikan basis pengetahuan
+# Definisi basis pengetahuan 
 gejala = [
     "Komputer tidak menyala",
     "Kipas tidak berputar",
