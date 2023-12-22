@@ -61,11 +61,11 @@ rule = [
 ]
 
 # Fungsi untuk menghitung Certainty Factor berdasarkan gejala
-def hitung_certainty_factor_gejala(selected_gejala, bobot_gejala, gejala_list):
-    cf_gejala = [0] * len(gejala_list)
-    for i, gejala in enumerate(gejala_list):
+def hitung_certainty_factor_gejala(selected_gejala, bobot_gejala):
+    cf_gejala = [0] * len(selected_gejala)
+    for i, gejala in enumerate(selected_gejala):
         for j, rule_gejala in enumerate(rule):
-            if gejala in rule_gejala and gejala in selected_gejala:
+            if gejala in rule_gejala:
                 cf_gejala[i] += hitung_certainty_factor(j, bobot_gejala, "ya")
 
     return cf_gejala
@@ -126,8 +126,8 @@ if st.button("Diagnosis Kerusakan"):
     table_data = {"Jenis Kerusakan": diagnosa, "Kemungkinan": kemungkinan_kerusakan}
     st.table(table_data)
 
-    # Tampilkan tabel dengan Certainty Factor untuk setiap gejala
+    # Tampilkan tabel dengan Certainty Factor untuk gejala yang dipilih
     st.write("---")
     st.subheader("Certainty Factor Berdasarkan Gejala:")
-    table_data_gejala = {"Gejala": gejala, "Certainty Factor": hitung_certainty_factor_gejala(selected_gejala, bobot_gejala, gejala)}
+    table_data_gejala = {"Gejala": selected_gejala, "Certainty Factor": hitung_certainty_factor_gejala(selected_gejala, bobot_gejala)}
     st.table(table_data_gejala)
