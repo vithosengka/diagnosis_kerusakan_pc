@@ -127,9 +127,7 @@ if st.button("Diagnosis Kerusakan"):
     st.table(table_data)
 
     # Tampilkan tabel dengan Certainty Factor untuk setiap gejala
-    if st.checkbox("Tampilkan Tabel Kemungkinan Kerusakan Berdasarkan Gejala"):
-        cf_gejala = hitung_certainty_factor_gejala(selected_gejala, bobot_gejala)
-        st.write("---")
-        st.subheader("Certainty Factor Berdasarkan Gejala:")
-        table_data_gejala = {"Gejala": gejala, "Certainty Factor": cf_gejala}
-        st.table(table_data_gejala)
+    st.write("---")
+    st.subheader("Certainty Factor Berdasarkan Gejala:")
+    table_data_gejala = {"Gejala": gejala, "Certainty Factor": hitung_certainty_factor_gejala(selected_gejala, bobot_gejala)}
+    st.table(table_data_gejala)
