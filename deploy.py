@@ -60,14 +60,22 @@ rule = [
     ["Tidak ada suara", "Suara kotor", "Noise pada speaker"],  # Rule untuk Sound Card Rusak
 ]
 
+# Fungsi untuk menghitung Certainty Factor berdasarkan gejala
+def hitung_certainty_factor_gejala(selected_gejala, bobot_gejala):
+    cf_gejala = [0] * len(gejala)
+    for i, gejala in enumerate(gejala):
+        for j, rule_gejala in enumerate(rule):
+            if gejala in rule_gejala and gejala in selected_gejala:
+                cf_gejala[i] += hitung_certainty_factor(j, bobot_gejala, "ya")
 
-# Fungsi untuk menghitung certainty factor
+    return cf_gejala
+
+# Fungsi untuk menghitung Certainty Factor
 def hitung_certainty_factor(gejala, bobot_gejala, jawaban):
     if jawaban == "ya":
         return bobot_gejala[gejala]
     else:
         return -bobot_gejala[gejala]
-
 
 # Fungsi untuk menghitung kemungkinan kerusakan
 def hitung_kemungkinan(selected_gejala, bobot_gejala):
@@ -78,12 +86,10 @@ def hitung_kemungkinan(selected_gejala, bobot_gejala):
                 kemungkinan[i] += hitung_certainty_factor(j, bobot_gejala, "ya")
     return kemungkinan
 
-
 # Fungsi untuk mendapatkan diagnosa
 def get_diagnosa(kemungkinan, diagnosa):
     index_tertinggi = kemungkinan.index(max(kemungkinan))
     return diagnosa[index_tertinggi], rekomendasi_perbaikan[index_tertinggi]
-
 
 # Tampilkan judul dan deskripsi
 st.title("Sistem Diagnosis Kerusakan Komputer")
@@ -95,6 +101,7 @@ selected_gejala = st.multiselect(
     gejala,
     help="Pilih gejala yang Anda alami pada komputer. Anda dapat memilih lebih dari satu gejala."
 )
+
 # Tampilkan tombol untuk diagnosis
 if st.button("Diagnosis Kerusakan"):
     # Hitung kemungkinan kerusakan
@@ -119,3 +126,10 @@ if st.button("Diagnosis Kerusakan"):
     table_data = {"Jenis Kerusakan": diagnosa, "Kemungkinan": kemungkinan_kerusakan}
     st.table(table_data)
 
+    # Tampilkan tabel dengan Certainty Factor untuk setiap gejala
+    if st.checkbox("Tampilkan Tabel Kemungkinan Kerusakan Berdasarkan Gejala"):
+        cf_gejala = hitung_certainty_factor_gejala(selected_gejala, bobot_gejala)
+        st.write("---")
+        st.subheader("Certainty Factor Berdasarkan Gejala:")
+        table_data_gejala = {"Gejala": gejala, "Certainty Factor": cf_gejala}
+        st.table(table_data_gejala)
